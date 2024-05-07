@@ -4,17 +4,18 @@ summoner_name = "TFTui"
 
 summoner = get_summoner_info(summoner_name)
 
-name = summoner['name']
-level = summoner['summonerLevel']
+#name = summoner['name']
+#level = summoner['summonerLevel']
 
-print(f'name:{name}')
-print(f'level:{level}')
+#print(f'name:{name}')
+#print(f'level:{level}')
+print(summoner)
 
 summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 20)
 print(summoner_match_ids)
 
 
-matchId = "BR1_2915393879"
+matchId = "BR1_2934017984"
 
 match_info = get_match_info(matchId)
 
@@ -23,6 +24,3 @@ for i in range(10):
     champion = match_info['info']['participants'][i]['championName']
     
     print(f'nick:{nick}, champion:{champion}')
-
-
-

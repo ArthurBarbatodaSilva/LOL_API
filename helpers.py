@@ -3,7 +3,7 @@ from urllib.parse import urlencode
 import settings
 
 
-def get_summoner_info(summoner_name=None, region=settings.DEFAULT_REGION_CODE):
+def get_summoner_info(summoner_name=None, region=settings.DEFAULT_REGION,tagLine =settings.TAG_LINE):
     """conseguindo informações da conta atráves do nome do invocador"""
 
     if not summoner_name:
@@ -13,7 +13,7 @@ def get_summoner_info(summoner_name=None, region=settings.DEFAULT_REGION_CODE):
         'api_key': settings.API_KEY
     }
 
-    api_url = f"https://{region}.api.riotgames.com/lol/summoner/v4/summoners/by-name/{summoner_name}"
+    api_url = f"https://{region}.api.riotgames.com/riot/account/v1/accounts/by-riot-id/{summoner_name}/{tagLine}"
 
     "fazendo um tratamento de erro ,caso ocorra algum, mostrar uma mensagem de erro "
     "solicitação sendo feita á API na linha 26, passando o parametro e a API_KEY "
