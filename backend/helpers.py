@@ -28,7 +28,7 @@ def get_summoner_info(summoner_name=None, region=settings.DEFAULT_REGION,tagLine
         return None
 
 
-def get_match_ids_by_summoner_puuid(summoner_puuid, matches_count, region=settings.DEFAULT_REGION):
+def get_match_ids_by_summoner_puuid(puuid, matches_count, region=settings.DEFAULT_REGION):
 
     """ retornando uma lista do histórico de partidas atráves do puuid so invocador"""
 
@@ -37,7 +37,7 @@ def get_match_ids_by_summoner_puuid(summoner_puuid, matches_count, region=settin
         'count': matches_count,
     }
 
-    api_url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{summoner_puuid}/ids"
+    api_url = f"https://{region}.api.riotgames.com/lol/match/v5/matches/by-puuid/{puuid}/ids"
     try:
         response = requests.get(api_url, params=urlencode(params))
         response.raise_for_status()

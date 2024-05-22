@@ -1,21 +1,14 @@
 from helpers import get_summoner_info, get_match_ids_by_summoner_puuid, get_match_info
 
-summoner_name = "Seryu Ubiquitous"
+summoner_name = "TFTui"
 
 summoner = get_summoner_info(summoner_name)
 
-#name = summoner['name']
-#level = summoner['summonerLevel']
-
-#print(f'name:{name}')
-#print(f'level:{level}')
-print(summoner)
-
-summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 20)
+summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 1)
 print(summoner_match_ids)
 
 
-matchId = "BR1_2934823376"
+matchId = "BR1_2938789037"
 
 match_info = get_match_info(matchId)
 
