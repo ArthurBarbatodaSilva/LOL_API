@@ -3,18 +3,46 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Informações da partida</title>
 </head>
 <body>
-    <row>
-        <col>
-             <img src="https://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/Pyke.png" alt="">
-        </col>
-    </row>
-    <row>
-        <col>
-             <img src="https://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/Alistar.png" alt="">
-        </col>
-    </row>
+    <h1>Informações da partida</h1>
+    <div id="match-data"></div>
+
+    <script>
+        async function fetchMatchData() {
+            try {
+                const response = await fetch('http://localhost:8000/api/match');
+                if (response.ok) {
+                    const data = await response.json();
+                    const matchDataDiv = document.getElementById('match-data');
+
+                    data.forEach(participant => {
+                        const participantDiv = document.createElement('div');
+                        participantDiv.classList.add('participant');
+
+                        participantDiv.innerHTML = `
+                            <p><strong>Nick:</strong> ${participant.nick}</p>
+                            <p><strong>Champion:</strong> ${participant.champion}</p>
+                            <img class="champion-icon" src="${participant.icon}" alt="${participant.champion}">
+                            <p><strong>Team:</strong> ${participant.team}</p>
+                            <p><strong>Items:</strong></p>
+                            <div>
+                                ${participant.items_icons.map(icon => `<img class="item-icon" src="${icon}" alt="Item">`).join('')}
+                            </div>
+                        `;
+
+                        matchDataDiv.appendChild(participantDiv);
+                    });
+                } else {
+                    console.error('Failed to fetch match data');
+                }
+            } catch (error) {
+                console.error('Error:', error);
+            }
+        }
+
+        fetchMatchData();
+    </script>
 </body>
 </html>
