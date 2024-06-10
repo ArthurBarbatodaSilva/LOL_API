@@ -3,11 +3,11 @@ from helpers import get_summoner_info, get_match_ids_by_summoner_puuid, get_matc
 
 app = Flask(__name__)
 
-@app.route('/api/match', methods=['GET'])
-def get_matches():
-    summoner_name = "TFTui"
+@app.route('/api/match/<string:userInput>', methods=['GET'])
+def get_matches(userInput):
+    summoner_name = userInput
     summoner = get_summoner_info(summoner_name)
-    summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 10) 
+    summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 2) 
     data = []
 
     for matchId in summoner_match_ids:

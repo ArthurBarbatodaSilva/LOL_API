@@ -8,6 +8,10 @@
 </head>
 <body>
     <h1>Match Information</h1>
+    <form id="searchForm">
+        <input type="text" id="summonerName" placeholder="Summoner Name">
+        <button type="submit">Search</button>
+    </form>
     <div class="participants-container">
         {% for group in data|batch(10) %}
         <div class="grid-container">
