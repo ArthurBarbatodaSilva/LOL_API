@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Info</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <h1>Match Information</h1>
+    <div>
+        {% for participant in data %}
+        <div class="participant">
+            <h2>{{ participant.nick }}</h2>
+            <img class="icon" src="{{ participant.icon }}" alt="{{ participant.champion }}">
+            <p>Champion: {{ participant.champion }}</p>
+            <p>Team: {{ participant.team }}</p>
+            <div class="items">
+                <p>Items:</p>
+                {% for item_icon in participant.items_icons %}
+                <img src="{{ item_icon }}" alt="Item">
+                {% endfor %}
+            </div>
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
