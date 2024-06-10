@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Match Info</title>
+    <link rel="stylesheet" href="/static/style.css">
+</head>
+<body>
+    <h1>Match Information</h1>
+    <div class="participants-container">
+        {% for group in data|batch(10) %}
+        <div class="grid-container">
+            {% for inner_group in group|batch(5) %}
+            <div class="row">
+                {% for participant in inner_group %}
+                <div class="participant">
+                    <h2>{{ participant.nick }}</h2>
+                    <img class="icon" src="{{ participant.icon }}" alt="{{ participant.champion }}">
+                    <p>Champion: {{ participant.champion }}</p>
+                    <p>Team: {{ participant.team }}</p>
+                    <div class="items">
+                        <p>Items:</p>
+                        {% for item_icon in participant.items_icons %}
+                        <img src="{{ item_icon }}" alt="Item">
+                        {% endfor %}
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+            {% endfor %}
+        </div>
+        {% endfor %}
+    </div>
+</body>
+</html>
+
