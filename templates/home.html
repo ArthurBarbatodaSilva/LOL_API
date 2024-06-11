@@ -10,7 +10,7 @@
     <h1>Match Information</h1>
     <form id="searchForm">
         <input type="text" id="summonerName" placeholder="Summoner Name">
-        <button type="submit">Search</button>
+        <button type="submit">SEARCH</button>
     </form>
     <div class="participants-container">
         {% for group in data|batch(10) %}
@@ -23,6 +23,8 @@
                     <img class="icon" src="{{ participant.icon }}" alt="{{ participant.champion }}">
                     <p>Champion: {{ participant.champion }}</p>
                     <p>Team: {{ participant.team }}</p>
+                    <p>tropas Abatidas: {{participant.totalMinionsKilled}}</p>
+                    <p>KDA:{{ participant.kills}}/{{participant.deaths}}/{{participant.assists}}</p>
                     <div class="items">
                         <p>Items:</p>
                         {% for item_icon in participant.items_icons %}

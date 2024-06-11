@@ -7,7 +7,7 @@ app = Flask(__name__)
 def get_matches(userInput):
     summoner_name = userInput
     summoner = get_summoner_info(summoner_name)
-    summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 10) 
+    summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 3) 
     data = []
 
     for matchId in summoner_match_ids:
@@ -18,6 +18,10 @@ def get_matches(userInput):
             nick = participant['summonerName']
             champion = participant['championName']
             team = participant['teamId']
+            kills = participant['kills']
+            deaths = participant['deaths']
+            assists = participant['assists']
+            totalMinionsKilled = participant['totalMinionsKilled']
             icon = f'https://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/{champion}.png'
 
             champion_items = []
@@ -35,6 +39,10 @@ def get_matches(userInput):
                 "nick": nick,
                 "champion": champion,
                 "team": team_color(team),
+                "kills": kills,
+                "deaths":deaths,
+                "assists": assists,
+                "totalMinionsKilled": totalMinionsKilled,
                 "icon": icon,
                 "items": champion_items,
                 "items_icons": items_icons,
