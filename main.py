@@ -7,7 +7,7 @@ app = Flask(__name__)
 def get_matches(userInput):
     summoner_name = userInput
     summoner = get_summoner_info(summoner_name)
-    summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 2) 
+    summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 10) 
     data = []
 
     for matchId in summoner_match_ids:

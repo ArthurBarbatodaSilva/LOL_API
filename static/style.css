@@ -1,3 +1,9 @@
+@font-face {
+    font-family: 'LOL';
+    src: url(../fontes/BeaufortforLOL-Bold.otf);
+}
+
+
 .participants-container {
     display: flex;
     flex-direction: column;
@@ -31,11 +37,23 @@
 }
 
 h1{
-    text-align: center
+    text-align: center;
+    background-color:#010A13;
+    color: #C89B3C;
+    
 }
 
 .grid-container {
     border: 2px solid black;
     padding: 10px;
     margin-bottom: 20px;
+}
+
+body{
+    background-color:#010A13;
+}
+
+.participant{
+    color: white;
+    border: solid #C89B3C;
 }
