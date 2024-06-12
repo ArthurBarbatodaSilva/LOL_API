@@ -5,14 +5,26 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Match Info</title>
     <link rel="stylesheet" href="/static/style.css">
+    <script src="/static/index.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdn.jsdelivr.net/npm/toastify-js/src/toastify.min.css">
+    <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/toastify-js"></script>
 </head>
-<body>
+<body style="background-color:#010A13;">
     <h1>Match Information</h1>
-    <form id="searchForm">
-        <input type="text" id="summonerName" placeholder="Summoner Name">
-        <button type="submit">SEARCH</button>
-    </form>
-    <div class="participants-container">
+    <div class="content" style="background-color: #3C3C41;">
+        <div class="search_box">
+            <div>
+                <input type="text" id="summonerName" placeholder="Summoner Name">
+                <input type="text" id="tagLine" placeholder="tagline" onkeypress="checkInput(event)" oninput="removeHash()">
+                <button type="submit" id="guess_summoner">Search</button>
+            </div>        
+        </div>
+        <div class="partidas">
+            <p style= "font-family: Poppins; color: white;">Visualizar as últimas partidas:</p>
+            <input type="text" id="partidas" placeholder="Qtd">
+        </div>
+    </div>
+    <div class="participants-container">     
         {% for group in data|batch(10) %}
         <div class="grid-container">
             {% for inner_group in group|batch(5) %}
@@ -22,13 +34,20 @@
                     <h2>{{ participant.nick }}</h2>
                     <img class="icon" src="{{ participant.icon }}" alt="{{ participant.champion }}">
                     <p>Champion: {{ participant.champion }}</p>
+                    <p>Kda: {{ participant.kda }}</p>
+                    <p>Score: {{ participant.score }}</p>
+                    <p>Minions: {{ participant.minion }}</p>
                     <p>Team: {{ participant.team }}</p>
-                    <p>tropas Abatidas: {{participant.totalMinionsKilled}}</p>
-                    <p>KDA:{{ participant.kills}}/{{participant.deaths}}/{{participant.assists}}</p>
                     <div class="items">
                         <p>Items:</p>
                         {% for item_icon in participant.items_icons %}
                         <img src="{{ item_icon }}" alt="Item">
+                        {% endfor %}
+                    </div>
+                    <div class="runes">
+                        <p>Runas:</p>
+                        {% for rune_icon in participant.runes_icons %}
+                        <img src="{{ rune_icon }}" alt="Rune">
                         {% endfor %}
                     </div>
                 </div>
@@ -40,4 +59,3 @@
     </div>
 </body>
 </html>
-

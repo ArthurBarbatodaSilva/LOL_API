@@ -1,50 +1,42 @@
-const guessButton = document.getElementById('guessButton');
-const submit = document.getElementById('summonerName');
+document.addEventListener('DOMContentLoaded', (event) => {
+    const inputBox = document.getElementById('summonerName');
+    const inputBoxTag = document.getElementById('tagLine');
+    const guessButton = document.getElementById('guess_summoner');
+    const games = document.getElementById('partidas');
 
-guessButton.addEventListener("click", function () {
-    const userInput = submit.value;
-  
-    const xhr = new XMLHttpRequest();
-  
-    xhr.open('GET', 'http://127.0.0.1:8000/api/match/' + userInput);
-  
-    xhr.setRequestHeader('Content-Type', 'application/json');
-  
-    xhr.send();
-  
-    xhr.onload = function () {
-        if (xhr.status === 200) {
-            const response = JSON.parse(xhr.responseText);
-            // Atualize a página com os dados recebidos da API
-            updatePage(response);
-            submit.value = ""; // Limpar o campo de texto após o envio bem-sucedido
+    guessButton.addEventListener('click', () => {
+        const summonerName = inputBox.value;
+        const tagLine = inputBoxTag.value;
+        const gamesSummoner = games.value;
+        if (summonerName, tagLine, gamesSummoner) {
+            window.location.href = `http://127.0.0.1:8000/api/match/${summonerName}/${tagLine}/${gamesSummoner}`;
         } else {
-            consolelog('Informe um nome válido');
+            mostrarNotificacao('PorFavor, coloque o Summoner Name, TagLine ou a Qtd de partidas');
         }
-    };
+    });
 });
 
-  function updatePageWithData(data) {
-    // Clear existing participant containers
-    const participantsContainer = document.querySelector('.participants-container');
-    participantsContainer.innerHTML = '';
-
-    // Add new participant containers with the received data
-    data.forEach(participant => {
-        const participantDiv = document.createElement('div');
-        participantDiv.classList.add('participant');
-
-        participantDiv.innerHTML = `
-            <h2>${participant.nick}</h2>
-            <img class="icon" src="${participant.icon}" alt="${participant.champion}">
-            <p>Champion: ${participant.champion}</p>
-            <p>Team: ${participant.team}</p>
-            <div class="items">
-                <p>Items:</p>
-                ${participant.items_icons.map(item_icon => `<img src="${item_icon}" alt="Item">`).join('')}
-            </div>
-        `;
-
-        participantsContainer.appendChild(participantDiv);
-    });
+function checkInput(event) {
+    if (event.key === '#') {
+        event.preventDefault();
+    }
 }
+
+function removeHash() {
+    const inputField = document.getElementById('tagLine');
+    inputField.value = inputField.value.replace(/#/g, '');
+}
+
+function mostrarNotificacao(e) {
+    Toastify({
+        text: e,
+        duration: 5000,
+        className: "info",
+        gravity: 'bottom',
+        style: {
+          background: "#bd360d",
+          color: "#ffffff",
+          border: "2px solid #bd360d"
+        }
+      }).showToast();
+  }

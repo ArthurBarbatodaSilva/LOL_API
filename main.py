@@ -1,13 +1,21 @@
 from flask import Flask, render_template
 from helpers import get_summoner_info, get_match_ids_by_summoner_puuid, get_match_info
+import requests
+import json
 
 app = Flask(__name__)
 
-@app.route('/api/match/<string:userInput>', methods=['GET'])
-def get_matches(userInput):
+@app.route('/')
+def homepage():
+    return render_template('home.html')
+
+@app.route('/api/match/<string:userInput>/<string:userInputTag>/<string:gamesUser>', methods=['GET'])
+def get_matches(userInput, userInputTag, gamesUser):
     summoner_name = userInput
-    summoner = get_summoner_info(summoner_name)
-    summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], 3) 
+    tagline = userInputTag
+    games = gamesUser
+    summoner = get_summoner_info(summoner_name, tagline)
+    summoner_match_ids = get_match_ids_by_summoner_puuid(summoner['puuid'], games) 
     data = []
 
     for matchId in summoner_match_ids:
@@ -17,15 +25,15 @@ def get_matches(userInput):
             participant = match_info['info']['participants'][i]
             nick = participant['summonerName']
             champion = participant['championName']
+            kda = f'{participant['kills']}/{participant['deaths']}/{participant['assists']}'
+            score = get_kda(participant)
+            minion = participant['totalMinionsKilled']
             team = participant['teamId']
-            kills = participant['kills']
-            deaths = participant['deaths']
-            assists = participant['assists']
-            totalMinionsKilled = participant['totalMinionsKilled']
             icon = f'https://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/{champion}.png'
 
             champion_items = []
             items_icons = []
+            runes_icons = []
 
             for item_index in range(6):
                 item_key = f"item{item_index}"
@@ -35,27 +43,56 @@ def get_matches(userInput):
                     item_icon_url = f'https://ddragon.leagueoflegends.com/cdn/14.9.1/img/item/{item_id}.png'
                     items_icons.append(item_icon_url)
 
+            for style in participant['perks']['styles']:
+                for selection in style['selections']:
+                    rune_id = selection['perk']
+                    if rune_id in rune_dict:
+                        rune_icon_url = f"https://ddragon.leagueoflegends.com/cdn/img/{rune_dict[rune_id]}"
+                        runes_icons.append(rune_icon_url)
+
+
             data.append({
                 "nick": nick,
                 "champion": champion,
                 "team": team_color(team),
-                "kills": kills,
-                "deaths":deaths,
-                "assists": assists,
-                "totalMinionsKilled": totalMinionsKilled,
                 "icon": icon,
+                "score": score,
                 "items": champion_items,
+                "kda": kda,
+                "minion": minion,
                 "items_icons": items_icons,
-                "stats": participant  # Adicionando informações de estatísticas completas
+                "runes_icons": runes_icons,
+                "stats": participant,
             })
 
     return render_template('home.html', data=data)
+
 
 def team_color(team):
     if team == 100:
         return 'Azul'
     if team == 200:
         return 'Vermelho'
+    
+
+def ddragon_get_runes_dict():
+    url = "http://ddragon.leagueoflegends.com/cdn/14.9.1/data/en_US/runesReforged.json"
+    runes_data = requests.get(url).json()
+    rune_dict = {}
+    for tree in runes_data:
+        for slot in tree["slots"]:
+            for rune in slot["runes"]:
+                rune_dict[rune["id"]] = rune["icon"]
+    return rune_dict
+
+rune_dict = ddragon_get_runes_dict()
+
+def get_kda(participant):
+    kda = participant.get('challenges', {}).get('kda')
+    
+    if kda is None:
+        kda = participant.get('kda', 0)  # Usa 0 como padrão se participant['kda'] não existir
+    return round(kda, 3)
 
 if __name__ == '__main__':
     app.debug = True

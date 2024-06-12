@@ -3,12 +3,8 @@ from urllib.parse import urlencode
 import settings
 
 
-def get_summoner_info(summoner_name=None, region=settings.DEFAULT_REGION,tagLine =settings.TAG_LINE):
+def get_summoner_info(summoner_name, tagLine, region=settings.DEFAULT_REGION):
     """conseguindo informações da conta atráves do nome do invocador"""
-
-    if not summoner_name:
-        summoner_name = input("summoner name:")
-
     params = {
         'api_key': settings.API_KEY
     }
