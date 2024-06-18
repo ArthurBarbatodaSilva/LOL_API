@@ -30,7 +30,9 @@ def get_matches(userInput, userInputTag, gamesUser):
             participant = match_info['info']['participants'][i]
             nick = participant['summonerName']
             champion = participant['championName']
-            kda = f'{participant['kills']}/{participant['deaths']}/{participant['assists']}'
+            kills = participant['kills']
+            deaths = participant['deaths']
+            assists = participant['assists']
             score = get_kda(participant)
             minion = participant['totalMinionsKilled']
             team = participant['teamId']
@@ -63,7 +65,9 @@ def get_matches(userInput, userInputTag, gamesUser):
                 "icon": icon,
                 "score": score,
                 "items": champion_items,
-                "kda": kda,
+                "kills": kills,
+                "deaths": deaths,
+                "assists": assists,
                 "minion": minion,
                 "items_icons": items_icons,
                 "runes_icons": runes_icons,
