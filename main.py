@@ -36,6 +36,7 @@ def get_matches(userInput, userInputTag, gamesUser):
             score = get_kda(participant)
             minion = participant['totalMinionsKilled']
             team = participant['teamId']
+            win = participant['win']
             icon = f'https://ddragon.leagueoflegends.com/cdn/14.9.1/img/champion/{champion}.png'
 
             champion_items = []
@@ -62,6 +63,7 @@ def get_matches(userInput, userInputTag, gamesUser):
                 "nick": nick,
                 "champion": champion,
                 "team": team_color(team),
+                "win": team_winner(win),
                 "icon": icon,
                 "score": score,
                 "items": champion_items,
@@ -82,6 +84,12 @@ def team_color(team):
         return 'Azul'
     if team == 200:
         return 'Vermelho'
+
+def team_winner(win):
+    if win == True:
+        return 'Vitória'
+    if win == False:
+        return 'Derrota'
     
 
 def ddragon_get_runes_dict():
