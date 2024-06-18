@@ -10,6 +10,11 @@ def homepage():
     return render_template('home.html')
 
 @app.route('/api/match/<string:userInput>/<string:userInputTag>/<string:gamesUser>', methods=['GET'])
+
+#Acessando os dados da partida atráves do summonerName e Tagline
+#O Data Dragon ou ddragon é o conjunto de arquivos de dados estáticos que fornece imagens e informações dos campeões,runas e itens
+
+
 def get_matches(userInput, userInputTag, gamesUser):
     summoner_name = userInput
     tagline = userInputTag
